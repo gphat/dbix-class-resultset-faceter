@@ -1,5 +1,7 @@
 package DBIx::Class::ResultSet::Faceter::Facet::Column;
-use Moose::Role;
+use Moose;
+
+with 'DBIx::Class::ResultSet::Faceter::Facet';
 
 =head1 NAME
 
@@ -25,14 +27,15 @@ has 'column' => (
 
 =head1 METHODS
 
-=head2 facet
+=head2 process
 
 =cut
 
-sub facet {
+sub process {
     my ($self, $row) = @_;
 
-    return { $row->$column => 1 };
+    my $column = $self->column;
+    return $row->$column;
 }
 
 =head1 AUTHOR

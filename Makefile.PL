@@ -7,6 +7,8 @@ license  'perl';
 
 build_requires 'Test::More';
 
+test_requires 'MooseX::Iterator';
+
 requires 'Moose';
 requires 'DBIx::Class';
 requires 'Try::Tiny';

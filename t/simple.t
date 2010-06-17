@@ -1,11 +1,30 @@
 use Test::More;
 use strict;
 
-my $faceter = DBIx::Class::ResultSet::Faceter->new();
+use lib 't/lib';
 
-$faceter->add_facet('Column', { column => 'name_first' });
+use FakeResultSet;
+use FakeRow;
 
-my $resultset;
+use DBIx::Class::ResultSet::Faceter;
+
+my $faceter = DBIx::Class::ResultSet::Faceter->new;
+
+$faceter->add_facet('Column', { name => 'Last Name', column => 'name_last' });
+
+my $resultset = FakeResultSet->new(
+    rows => [
+        FakeRow->new(
+            name_last => 'Watson'
+        ),
+        FakeRow->new(
+            name_last => 'Smith'
+        ),
+        FakeRow->new(
+            name_last => 'Watson'
+        )
+    ]
+);
 
 my $results = $faceter->facet($resultset);
 

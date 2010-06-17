@@ -11,26 +11,32 @@ DBIx::Class::ResultSet::Faceter::Facet - A Facet
 
 =head1 ATTRIBUTES
 
+=head2 name
+
+The name of this facet.  This attribute is required.  It should be unique when
+compared to any other facets used on the ResultSet.
+
+=cut
+
+has 'name' => (
+    is => 'ro',
+    isa => 'Str',
+    required => 1
+);
+
 =head1 METHODS
 
-=head2 facet
+=head2 process
 
-The facet method is the only required method for something implementing this
+The process method is the only required method for something implementing this
 role. When faceting the Facet class will be called once for each row in the
-ResultSet that is being faceted. It is expected to return a HashRef in the
-following form:
-
-  {
-    'facet_value' => $count,
-  }
-
-This HashRef's key is the facet value that this Facet implementation finds
-along with it's count.  Any sorting, limiting, offseting or other operations
+ResultSet that is being faceted. It is expected to return a string that will
+place it into a facet. Any sorting, limiting, offseting or other operations
 are handled by the role and not necessary.
 
 =cut
 
-requires 'facet';
+requires 'process';
 
 =head1 AUTHOR
 
@@ -47,7 +53,5 @@ by the Free Software Foundation; or the Artistic License.
 See http://dev.perl.org/licenses/ for more information.
 
 =cut
-
-__PACKAGE__->meta->make_immutable;
 
 1;
