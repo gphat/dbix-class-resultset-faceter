@@ -2,6 +2,7 @@ package DBIx::Class::ResultSet::Faceter;
 use Moose;
 
 use Class::MOP;
+use DBIx::Class::ResultSet::Faceter::Result;
 use Try::Tiny;
 
 =head1 NAME
@@ -25,9 +26,13 @@ List of facets, keyed by name.
 =cut
 
 has 'facets' => (
+    traits => [ qw(Hash) ],
     is => 'ro',
     isa => 'HashRef',
-    default => sub { {} }
+    default => sub { {} },
+    handles => {
+        get_facet => 'get'
+    }
 );
 
 =head1 METHODS
@@ -94,13 +99,26 @@ sub facet {
 
     while(my $row = $rs->next) {
         foreach my $name (keys %{ $self->facets }) {
-            my $facet = $self->facets->{$name};
+            my $facet = $self->get_facet($name);
             $res{$name}->{$facet->process($row)} += 1;
         }
     }
 
-    use Data::Dumper;
-    print STDERR Dumper(\%res);
+    my $result = DBIx::Class::ResultSet::Faceter::Result->new;
+
+    foreach my $name (keys %{ $self->facets }) {
+        my $data = $res{$name};
+        if(scalar(keys %{ $data })) {
+            my $facet = $self->get_facet($name);
+            # Call prepare on the facet, give it the data and store the
+            # retval in the result!
+            $result->set($name, $facet->_prepare($data));
+        } else {
+            $result->set({$name}, []);
+        }
+    }
+
+    return $result;
 }
 
 =head1 AUTHOR

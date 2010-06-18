@@ -17,49 +17,47 @@ The number of facets in this result.
 
 =head2 facets
 
-An ArrayRef of facets in the form of:
+A HashRef of facets in the form of:
 
-  [
-    { 'facet_value_A' => $count_A },
-    { 'facet_value_B' => $count_B }
-  ]
+  {
+    'facet_name_1' => [
+        { 'facet_value_A' => $count_A },
+        { 'facet_value_B' => $count_B }
+    ],
+    'facet_name_2' => [
+        { 'facet_value_A' => $count_A },
+        { 'facet_value_B' => $count_B }
+    ]
+  }
+
+The facets will be in whatever order you specified them to be in when you
+added the facet to the L<DBIx::Class::ResultSet::Faceter>.
 
 =cut
 
 has 'facets' => (
-    traits => [ qw(Array) ],
+    traits => [ qw(Hash) ],
     is => 'ro',
-    isa => 'ArrayRef',
-    default => sub { [] },
+    isa => 'HashRef',
+    default => sub { {} },
     handles => {
-        count => 'count'
+        count   => 'count',
+        get     => 'get',
+        names   => 'keys',
+        set     => 'set'
     }
 );
 
-=head2 facet_names
-
-An array of facet names, returned in the same order that they appear in
-C<facets>.
-
-=cut
-
-has 'names' => (
-    is => 'ro',
-    isa => 'ArrayRef',
-    lazy => 1,
-    default => sub {
-        # There is probably a less verbose way to do this...
-        my $self = shift;
-        my @names = ();
-        foreach my $f (@{ $self->facets }) {
-            my @keys = keys(%{ $f });
-            push(@names, $keys[0]);
-        }
-        return \@names;
-    }
-);
 
 =head1 METHODS
+
+=head2 count
+
+Count of facets in this result.
+
+=head2 names
+
+An array of facet names in this Result.
 
 =head1 AUTHOR
 
