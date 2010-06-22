@@ -17,6 +17,23 @@ our $VERSION = '0.01';
 
 =head1 DESCRIPTION
 
+Faceter is a mechanism for "faceting" a resultset, or counting the occurrences
+of certain data.  Faceting is a common search pattern, represented by
+the sidebars that tell how how many of your search results fall in a certain
+price range or are members of a certain category.
+
+This module allows you to perform these types of operations on the results
+of a database query via a L<DBIx::Class::ResultSet>.
+
+=head2 What about GROUP BY?
+
+Using an SQL C<GROUP BY> can do the same things that this module does.  The
+reason I've created this module is to allow for more complex situations and
+to avoid generating more SQL queries.  Large facet implementations that cover
+dozens of dimensions can quickly cause an SQL query to become unweildy.  This
+module provides an alternate approach for people who may've run afoul of the
+aforementioned problems.
+
 =head1 ATTRIBUTES
 
 =head2 facets

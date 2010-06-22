@@ -27,7 +27,7 @@ my $resultset = FakeResultSet->new(
     $faceter->add_facet('Column', { name => 'Last Name', column => 'name_last' });
     my $results = $faceter->facet($resultset);
 
-    # Test $results->get('Last Name')->[0]
+	is_deeply([ { Watson => 2 }, { Smith => 1 } ], $results->get('Last Name'), 'last name default');
 }
 
 done_testing;

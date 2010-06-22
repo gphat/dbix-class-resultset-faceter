@@ -10,6 +10,7 @@ build_requires 'Test::More';
 test_requires 'MooseX::Iterator';
 
 requires 'Moose';
+requires 'MooseX::Iterator';
 requires 'DBIx::Class';
 requires 'Try::Tiny';
 
