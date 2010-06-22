@@ -15,6 +15,16 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
+  my $faceter = DBIx::Class::ResultSet::Faceter->new;
+
+  # Add a Column facet for the name_last column
+  $faceter->add_facet('Column', {
+	name => 'Last Name', column => 'name_last'
+  });
+  # Pass in a resultset and get the results.
+  my $results = $faceter->facet($resultset);
+
+
 =head1 DESCRIPTION
 
 Faceter is a mechanism for "faceting" a resultset, or counting the occurrences

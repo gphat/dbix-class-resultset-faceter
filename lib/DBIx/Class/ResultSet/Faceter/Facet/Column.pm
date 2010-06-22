@@ -9,7 +9,14 @@ DBIx::Class::ResultSet::Faceter::Facet::Column - Simple faceting on a column
 
 =head1 SYNOPSIS
 
+  $faceter->add_facet('Column', {
+	name => 'Last Name', column => 'name_last'
+  });
+
 =head1 DESCRIPTION
+
+Returns the value of the specified column.  Used in situations where the facet
+desired in the unmodified value of a column.
 
 =head1 ATTRIBUTES
 
@@ -25,9 +32,24 @@ has 'column' => (
     required => 1
 );
 
+=head2 hashref
+
+If true then the row is assumed to be a plain HashRef, as created by the
+DBIx::Class HashRefInflator.
+
+=cut
+
+has 'hashref' => (
+	is => 'ro',
+	isa => 'Bool',
+	default => 0
+);
+
 =head1 METHODS
 
 =head2 process
+
+Returns the name of the specified column.
 
 =cut
 
@@ -35,6 +57,12 @@ sub process {
     my ($self, $row) = @_;
 
     my $column = $self->column;
+
+	if($self->hashref) {
+		# Treat it like a HashRef
+		return $row->{$column};
+	}
+
     return $row->$column;
 }
 
