@@ -21,6 +21,16 @@ our $VERSION = '0.01';
   $faceter->add_facet('Column', {
 	name => 'Last Name', column => 'name_last'
   });
+  # Add more, if you like
+  $faceter->add_facet('CodeRef', {
+    name => 'Avg Test Score', code => sub { # something fancy }
+  });
+
+  # Even for HashRefInflator stuff
+  $faceter->add_facet('HashRef', {
+    name => 'DoB', key => 'date_of_birth'
+  });
+
   # Pass in a resultset and get the results.
   my $results = $faceter->facet($resultset);
 
