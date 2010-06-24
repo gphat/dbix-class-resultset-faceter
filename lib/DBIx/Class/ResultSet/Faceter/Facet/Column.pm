@@ -12,6 +12,12 @@ DBIx::Class::ResultSet::Faceter::Facet::Column - Simple faceting on a column
   $faceter->add_facet('Column', {
 	name => 'Last Name', column => 'name_last'
   });
+  
+  # or
+  
+  $faceter->add_facet('Date Created', {
+	name => 'Last Name', column => 'date_created.ymd'
+  });
 
 =head1 DESCRIPTION
 
@@ -22,7 +28,12 @@ desired in the unmodified value of a column.
 
 =head2 column
 
-The name of the column to facet on.
+The name of the column to facet on.  If the name contains dots then it is split
+and each method is invoked on the value of the previous invocation.  In other
+words if the column name is C<owner.identity.name> then the result will be
+the same as C<$row->owner->identity->name>.  This is suitable for both
+DBIx::Class relationships and for columns that return objects, such as a
+DateTime.
 
 =cut
 
@@ -30,19 +41,6 @@ has 'column' => (
     is => 'ro',
     isa => 'Str',
     required => 1
-);
-
-=head2 hashref
-
-If true then the row is assumed to be a plain HashRef, as created by the
-DBIx::Class HashRefInflator.
-
-=cut
-
-has 'hashref' => (
-	is => 'ro',
-	isa => 'Bool',
-	default => 0
 );
 
 =head1 METHODS
@@ -58,12 +56,17 @@ sub process {
 
     my $column = $self->column;
 
-	if($self->hashref) {
-		# Treat it like a HashRef
-		return $row->{$column};
-	}
+    my @calls = ( $column );
+    # If there is a dot in the name (e.g. foo.bar) then create a list.
+    if($column =~ /\./) {
+        @calls = split(/\./, $column);
+    }
 
-    return $row->$column;
+    my $val = $row;
+    foreach my $col (@calls) {
+        $val = $val->$col;
+    }
+    return $val;
 }
 
 =head1 AUTHOR

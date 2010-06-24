@@ -28,7 +28,7 @@ my $resultset = FakeResultSet->new(
 
 {
     my $faceter = DBIx::Class::ResultSet::Faceter->new;
-    $faceter->add_facet('Column', { hashref => 1, name => 'Last Name', column => 'name_last' });
+    $faceter->add_facet('HashRef', { name => 'Last Name', key => 'name_last' });
     my $results = $faceter->facet($resultset);
 
 	is_deeply([ { Watson => 3 }, { Brown => 2 }, { Smith => 1 } ], $results->get('Last Name'), 'last name default');
