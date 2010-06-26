@@ -31,7 +31,7 @@ our $VERSION = '0.01';
     name => 'DoB', key => 'date_of_birth'
   });
 
-  # Pass in a resultset and get the results.
+  # Pass in a resultset and get a results object
   my $results = $faceter->facet($resultset);
 
 
