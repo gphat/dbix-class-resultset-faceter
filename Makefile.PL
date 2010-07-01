@@ -12,6 +12,7 @@ test_requires 'MooseX::Iterator';
 requires 'DateTime';
 requires 'Moose';
 requires 'MooseX::Iterator';
+requires 'MooseX::Types';
 requires 'DBIx::Class';
 requires 'Try::Tiny';
 

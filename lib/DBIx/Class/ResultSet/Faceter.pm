@@ -11,7 +11,7 @@ DBIx::Class::ResultSet::Faceter - Faceting for DBIx::Class ResultSets
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
