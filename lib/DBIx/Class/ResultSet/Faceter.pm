@@ -11,7 +11,7 @@ DBIx::Class::ResultSet::Faceter - Faceting for DBIx::Class ResultSets
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
@@ -125,7 +125,7 @@ sub add_facet {
 
 =head2 facet
 
-Performs the faceting, returning a L<DBIx::Class::Faceter::Result> object.
+Performs the faceting, returning a L<DBIx::Class::ResultSet::Faceter::Result> object.
 
 =cut
 
