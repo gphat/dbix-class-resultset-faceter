@@ -11,7 +11,7 @@ DBIx::Class::ResultSet::Faceter - Faceting for DBIx::Class ResultSets
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -151,7 +151,7 @@ sub facet {
             # retval in the result!
             $result->set($name, $facet->_prepare($data));
         } else {
-            $result->set({$name}, []);
+            $result->set($name, []);
         }
     }
 
