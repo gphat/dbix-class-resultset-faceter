@@ -1,5 +1,8 @@
 Revision history for DBIx-Class-ResultSet-Faceter
 
+0.05
+        Depend on Moose 0.90, since that's when Native went core (arcanez)
+
 0.04    2010-07-21
         Correct busted POD link (Alex "frew" Schmidt)
 

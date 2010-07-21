@@ -10,7 +10,7 @@ build_requires 'Test::More';
 test_requires 'MooseX::Iterator';
 
 requires 'DateTime';
-requires 'Moose';
+requires 'Moose' => '0.90';
 requires 'MooseX::Iterator';
 requires 'MooseX::Types';
 requires 'DBIx::Class';
